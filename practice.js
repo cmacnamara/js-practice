@@ -42,6 +42,7 @@ E.g. [A,B,C] has letter differences of 1 and 1
 */
 
 const testTriplets = [['A', 'B', 'C'], ['B', 'C', 'D'], ['B', 'D', 'C']]
+const testTriplets2 = [['C', 'E', 'G'], ['X', 'Y', 'Z'], ['K', 'M', 'O']]
 
 const generateDifferences = triplet => {
   const differences = []
@@ -54,35 +55,34 @@ const generateDifferences = triplet => {
 const arrayExists = (arraysObject, differences) => {
   const keys = Object.keys(arraysObject)
   if(keys.length === 0) return false
-  console.log(arraysObject);
+  let exists = false
   const differencesString = differences.join(",")
   keys.forEach(key => {
-    console.log(`Checking ${key} against ${differencesString}`);
     if(key === differencesString) {
-      console.log("Returning true")
-      return true
+      exists = true
     }
   })
-  return false
+  return exists
 }
 
 const generateDifferenceTally = triplets => {
   const differenceArrayTally = {}
   triplets.forEach(triplet => {
     const differences = generateDifferences(triplet)
-    console.log("Exists already?", arrayExists(differenceArrayTally, differences))
+
     if(arrayExists(differenceArrayTally, differences)) {
-      console.log("Incrementing tally...")
-      differenceArrayTally[differences]++
+      differenceArrayTally[differences] = [...differenceArrayTally[differences], [...triplet]]
     }
-    else differenceArrayTally[differences] = 1
+    else differenceArrayTally[differences] = [[...triplet]]
   })
-  console.log(differenceArrayTally);
   return differenceArrayTally
 }
 
 const findOutlier = differenceArrayTally => {
-
+  for(tally in differenceArrayTally) {
+    if(differenceArrayTally[tally].length === 1) return differenceArrayTally[tally][0]
+  }
+  return null
 }
 
 const getOutlierTriplet = triplets => {
@@ -90,4 +90,4 @@ const getOutlierTriplet = triplets => {
   return findOutlier(differenceArrayTally)
 }
 
-console.log("Outlier is: ", getOutlierTriplet(testTriplets));
+console.log("Outlier is: ", getOutlierTriplet(testTriplets2));
