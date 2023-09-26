@@ -29,10 +29,10 @@ const maxEvenSum = nums => {
   else return 0
 }
 
-console.log("Max Even Sum: ", maxEvenSum(testNums));
-console.log("Max Even Sum: ", maxEvenSum(testNums2));
+//console.log("Max Even Sum: ", maxEvenSum(testNums));
+//console.log("Max Even Sum: ", maxEvenSum(testNums2));
 
-
+/*----------------------------------------------------------------------------------------*/
 /*
 Determine which letter triplet does not belong based on the differences between their letters
 
@@ -90,4 +90,44 @@ const getOutlierTriplet = triplets => {
   return findOutlier(differenceArrayTally)
 }
 
-console.log("Outlier is: ", getOutlierTriplet(testTriplets2));
+//console.log("Outlier is: ", getOutlierTriplet(testTriplets2));
+
+/*----------------------------------------------------------------------------------------*/
+
+/*
+ * Question: An array and a number A is given. Determine if any two numbers within the array sum to A.
+ */
+
+const numbersTest = [1, 3, 4, 2, 2, 1, 6]
+
+const twoSum = (numbers, target) => {
+  for(let i = 0; i < numbers.length; i++) {
+    if(numbers.includes(target - numbers[i]) && numbers.indexOf(target - numbers[i]) !== i)
+      return true
+  }
+  return false
+}
+
+//console.log("Two Sum is possible: ", twoSum(numbersTest, 11))
+
+/*----------------------------------------------------------------------------------------*/
+
+/*
+ * Question: An array of characters and a string B is given. Write a function to return the string B with all the characters from the array removed.
+ */
+
+const charsTest = ['a', 'o', 'r'] 
+const strTest = 'The quick brown fox jumped over the lazy dog.'
+
+const removeChars = (characters, str) => {
+  const splitString = str.split('')
+  let newString = ''
+  splitString.forEach(character => {
+    if(!characters.includes(character.toLowerCase())) {
+      newString = newString + character
+    }
+  })
+  return newString
+}
+
+console.log(removeChars(charsTest, strTest))
