@@ -130,4 +130,23 @@ const removeChars = (characters, str) => {
   return newString
 }
 
-console.log(removeChars(charsTest, strTest))
+//console.log(removeChars(charsTest, strTest))
+
+/*----------------------------------------------------------------------------------------*/
+
+/*
+ * Write a function, which takes a non-negative integer (seconds) as input and returns the time in a human-readable format (HH:MM:SS)
+ */
+
+function humanReadable (secondsArg) {
+  const hours = Math.floor(secondsArg / (60 * 60))
+  const remainder = secondsArg % (60 * 60)
+  const minutes = Math.floor(remainder / 60)
+  const seconds = remainder % 60
+  const hoursStr = hours < 10 ? `0${hours}` : `${hours}`
+  const minutesStr = minutes < 10 ? `0${minutes}` : `${minutes}`
+  const secondsStr = seconds < 10 ? `0${seconds}` : `${seconds}`
+  return `${hoursStr}:${minutesStr}:${secondsStr}`;
+}
+
+console.log(humanReadable(45296))
