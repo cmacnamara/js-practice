@@ -149,4 +149,66 @@ function humanReadable (secondsArg) {
   return `${hoursStr}:${minutesStr}:${secondsStr}`;
 }
 
-console.log(humanReadable(45296))
+//console.log(humanReadable(45296))
+
+/*----------------------------------------------------------------------------------------*/
+
+/*
+ * Write a function that, given a string of text (possibly with punctuation and line-breaks), returns an array of the top-3 most occurring words, in descending order of the number of occurrences.
+
+  Pseudocode:
+  1. Check argument for empty string and return empty array 
+  2. Construct new string based on lowercase version of argument only composed of lowercase characters and apostrophes. Other characters will return a whitespace
+  3. Split new string by white space
+  4. Create empty object to hold word tallies
+  5. Loop through array of words and tally them up
+  6. Sort of the object by tallies, returning up to 3 top tallied responses. 
+ */
+
+const topThreeTest1 = "In a village of La Mancha, the name of which I have no desire to call to mind, there lived not long since one of those gentlemen that keep a lance in the lance-rack, an old buckler, a lean hack, and a greyhound for coursing. An olla of rather more beef than mutton, a salad on most nights, scraps on Saturdays, lentils on Fridays, and a pigeon or so extra on Sundays, made away with three-quarters of his income."
+
+function isAcceptableChar(character) {
+  const acceptableChars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '\'']
+  if(acceptableChars.includes(character)) return true
+  return false
+}
+
+function topThreeWords(text) { 
+  if(text.length === 0) return []
+
+  const lowerCaseVersion = text.toLowerCase()
+  let newText = ''
+
+  for(let i = 0; i < lowerCaseVersion.length; i++) {
+    if(isAcceptableChar(lowerCaseVersion[i])) {
+      newText = newText + lowerCaseVersion[i]
+    } else if(i > 0 && newText[newText.length-1] !== ' ') {
+      newText = newText + ' '
+    }
+  }
+
+  const words = newText.split(' ')
+
+  const wordTallies = {}
+
+  words.forEach(word => {
+    if(wordTallies[word]) wordTallies[word] += 1
+    else wordTallies[word] = 1
+  })
+
+  let sortableTallies = []
+
+  for(let word in wordTallies) {
+    sortableTallies.push([word, wordTallies[word]])
+  }
+
+  sortableTallies.sort(function(a,b) {
+    return b[1] - a[1]
+  })
+
+  if(sortableTallies.length === 1) return [sortableTallies[0][0]]
+  else if(sortableTallies.length === 2) return [sortableTallies[0][0], sortableTallies[1][0]]
+  else return [sortableTallies[0][0], sortableTallies[1][0], sortableTallies[2][0]]
+}
+
+console.log(topThreeWords(topThreeTest1))
