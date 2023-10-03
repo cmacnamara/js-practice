@@ -182,7 +182,7 @@ function topThreeWords(text) {
   for(let i = 0; i < lowerCaseVersion.length; i++) {
     if(isAcceptableChar(lowerCaseVersion[i])) {
       newText = newText + lowerCaseVersion[i]
-    } else if(i > 0 && newText[newText.length-1] !== ' ') {
+    } else if(i > 0 && i !== lowerCaseVersion.length - 1 && newText[newText.length-1] !== ' ') {
       newText = newText + ' '
     }
   }
@@ -211,4 +211,70 @@ function topThreeWords(text) {
   else return [sortableTallies[0][0], sortableTallies[1][0], sortableTallies[2][0]]
 }
 
-console.log(topThreeWords(topThreeTest1))
+//console.log(topThreeWords(topThreeTest1))
+
+/*----------------------------------------------------------------------------------------*/
+
+/*
+ * Given an unordered array of integers, write a program that finds a contiguous subarray whose sum is equal to the given one.
+
+  Pseudocode:
+  1. Check for empty array
+  2. Check to see that all elements are integers
+  3. Loop through each element and check if that element equals the sum
+  4. Loop through each subsequent element adding them on to the current sum and check if equal to given sum
+  4a. If equals sum, return array from i to j
+  5. If no sub array is found, return empty array
+ */
+
+const nums = [-1, 6, 3, 7, 4, 3, 2, 2, 2, 6, 4]
+const target = 5
+
+const findSubSum = (numbers, targetSum) => {
+  if(numbers.length === 0) return []
+  if(!numbers.every(number => typeof number === 'number')) return 'Error: Array includes non-integers'
+
+  for(let i = 0; i < numbers.length - 1; i++) {
+    let currentSum = numbers[i]
+    if(currentSum === targetSum) return [numbers[i]]
+    for(let j = i + 1; j < numbers.length; j++) {
+      currentSum += numbers[j]
+      if(currentSum === targetSum) return numbers.slice(i, j + 1)
+    }
+  }
+  if(numbers[numbers.length-1] === targetSum) return numbers[numbers.length - 1]
+  return []
+}
+
+//console.log(findSubSum(nums, target));
+
+/*----------------------------------------------------------------------------------------*/
+
+/*
+ * Write a function to locate and delete duplicate elements from an ordered array.
+
+  Pseudocode:
+  1. 
+ */
+
+
+
+/*----------------------------------------------------------------------------------------*/
+
+/*
+ * 
+
+  Pseudocode:
+  1. 
+ */
+
+
+
+/*----------------------------------------------------------------------------------------*/
+
+/*
+ * 
+
+  Pseudocode:
+  1. 
+ */
