@@ -254,27 +254,121 @@ const findSubSum = (numbers, targetSum) => {
  * Write a function to locate and delete duplicate elements from an ordered array.
 
   Pseudocode:
-  1. 
+  1. Loop through the array and build a second array of values.
+  2. If the current value does not exist as a key, add the current value to a new array
+  3. Return new array
  */
 
+const dupNums = [1, 3, 4, 4, 4, 5, 5, 7, 8, 9, 9, 9, 9]
 
+const deleteDuplicates = numbers => {
+  const numsWithoutDuplicates = []
+  for(let i = 0; i < numbers.length; i++) {
+    if(!numsWithoutDuplicates.includes(numbers[i])) {
+      numsWithoutDuplicates.push(numbers[i])
+    }
+  }
+  return numsWithoutDuplicates
+}
+
+//console.log(deleteDuplicates(dupNums));
 
 /*----------------------------------------------------------------------------------------*/
 
 /*
- * 
+ * Consider any String S and write code to reverse the string S without disturbing the individual words.
 
   Pseudocode:
-  1. 
+  1. Split string by spaces
+  2. return reversed string
  */
 
+const testStr = 'My name is Chris and I like to have a good time.'
 
+const reverseWordOrder = sentence => {
+  return sentence.split(' ').reverse().join(' ')
+}
+
+//console.log(reverseWordOrder(testStr));
 
 /*----------------------------------------------------------------------------------------*/
 
 /*
- * 
+ * You are given an array of strings 'products' and a string 'searchWord'. Design a system that suggests at most three product names from products after each character of searchWord is typed. Suggested products should have common prefix with searchWord. If there are more than three products with a common prefix return the three lexicographically minimums products.
+
+Return a list of lists of the suggested products after each character of searchWord is typed.
+
+Assumptions: all words are lower case, array is not empty, searchWord is a valid word
 
   Pseudocode:
-  1. 
+  0. Initialize empty array for arrays of suggestions
+  1. Loop through chars of search word and update current search term to include all chars so far
+  2. initialize empty array 'suggestions'
+  3. Loop through products checking to see if they begin with the currentSearchTerm's chars
+    If so and suggestions.length < 3, push the product to suggestions
+  4. At the end of the loop, push suggestions to main array
  */
+
+const products = ["mobile","mouse","moneypot","monitor","mousepad"]
+const searchWord = 'mouse'
+
+const generateProductSuggestions = (products, searchWord) => {
+  const sortedProds = products.sort()
+  const allSuggestions = []
+  let currentSearchTerm = ''
+
+  for(let i = 0; i < searchWord.length; i++) {
+    currentSearchTerm = currentSearchTerm + searchWord[i]
+    const suggestions = []
+
+    for(let j = 0; j < sortedProds.length && suggestions.length < 3; j++) {
+      if(sortedProds[j].slice(0, currentSearchTerm.length) === currentSearchTerm) {
+        suggestions.push(sortedProds[j])
+      }
+    }
+
+    allSuggestions.push(suggestions.sort())
+  }
+
+  return allSuggestions
+}
+
+//console.log(generateProductSuggestions(products, searchWord));
+
+/*----------------------------------------------------------------------------------------*/
+
+/*
+ * Given an array of points where points[i] = [xi, yi] represents a point on the X-Y placce and an integer k, return the k closest points to the origin (0,0)
+
+The distance between two points the X-Y plane is the Euclidean distance 
+
+You may return the answer in any order. The answer is guaranteed to be unique (except for the order that it is in.)
+
+  Pseudocode:
+  ** Helper function: calculateDistance
+  0. Loop through array of points, calulating distance to origin. Store distance and point index in a separate array
+  1. Sort new array by distance
+  2. Return sliced array from 0 to k
+ */
+
+const points = [[1,3],[-2,2]]
+const k = 1
+
+const calculateDistanceFromOrigin = point => {
+  Math.sqrt(point[0]**2 + point[1]**2)
+}
+
+const generateKClosestPoints = (points, k) => {
+  const distances = []
+  points.forEach((point, idx) => {
+    distances.push([calculateDistanceFromOrigin(point), idx])
+  })
+
+  distances.sort((a,b) => {
+    a[0] - b[0]
+  })
+
+  return distances.slice(0, k)
+}
+
+console.log(generateKClosestPoints(points, k));
