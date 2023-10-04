@@ -355,7 +355,7 @@ const points = [[1,3],[-2,2]]
 const k = 1
 
 const calculateDistanceFromOrigin = point => {
-  Math.sqrt(point[0]**2 + point[1]**2)
+  return Math.sqrt(point[0]**2 + point[1]**2)
 }
 
 const generateKClosestPoints = (points, k) => {
@@ -363,12 +363,85 @@ const generateKClosestPoints = (points, k) => {
   points.forEach((point, idx) => {
     distances.push([calculateDistanceFromOrigin(point), idx])
   })
-
+  
   distances.sort((a,b) => {
-    a[0] - b[0]
+    return a[0] - b[0]
   })
+  
+  const closestPoints = []
 
-  return distances.slice(0, k)
+  for(let i = 0; i < k; i++) {
+    closestPoints.push(points[distances[i][1]])
+  }
+
+  return closestPoints
 }
 
-console.log(generateKClosestPoints(points, k));
+//console.log(generateKClosestPoints(points, k));
+
+/*----------------------------------------------------------------------------------------*/
+
+/*
+  * You are given an array of logs. Each log is a space-delimited string of words, where the first word is the identifier.
+
+There are two types of logs:
+  - Letter-logs: All words (except the identifier) consist of lowercase English letters.
+  - Digit-logs: All words (except the identifier) consist of digits.
+
+Reorder these logs so that:
+  1. The letter-logs come before all digit-logs.
+  2. THe letter-logs are sorted lexicographically by their contents. If their contents are the same, then sort them lexicographically by their identifiers. 
+  3. The digit-logs maintain their relative ordering.
+
+  Return the final order of the logs.
+
+  Pseudocode:
+  ** 
+  0. Create two arrays: one to store letter logs and one to store number logs
+  1. Loop through argument
+    1a. split each string on spaces
+    1b. If log[1] is a number, push that log to numberlogs, else push to letterlogs
+  2. Sort the letter logs
+    2a. Create a new array where a[0] is the identifier and a[1] is the joined letters
+    2b. Sort elements: if a[1] === b[1], compare a[0] to b[0], else compare a[1] to b[1]
+  3. Push each letter log into final array, then push number logs
+  4. return final array
+  */
+
+  const logs = ["dig1 8 1 5 1","let1 art can","dig2 3 6","let2 own kit dig","let3 art zero"]
+//Output: ["let1 art can","let3 art zero","let2 own kit dig","dig1 8 1 5 1","dig2 3 6"]
+
+  const reorderLogFiles = logs => {
+    const letterLogs = [], numberLogs = [], sortedLogs = []
+
+    logs.forEach(log => {
+      const splitLog = log.split(' ')
+      if(!isNaN(splitLog[1])) numberLogs.push(log)
+      else letterLogs.push(log) 
+    })
+
+    letterLogs.sort((a,b) => {
+      const aLetters = a.substring(a.indexOf(' ') + 1)
+      const bLetters = b.substring(b.indexOf(' ') + 1)
+      const aIdentifier = a.substring(0, a.indexOf(' '))
+      const bIdentifier = b.substring(0, b.indexOf(' '))
+
+      if(aLetters === bLetters) {
+        return aIdentifier.localeCompare(bIdentifier)
+      } else {
+        return aLetters.localeCompare(bLetters)
+      }
+    })
+
+    letterLogs.forEach(letterLog => {
+      sortedLogs.push(letterLog)
+    });
+
+    numberLogs.forEach(numberLog => {
+      sortedLogs.push(numberLog)
+    })
+
+    return sortedLogs
+  }
+
+  console.log(reorderLogFiles(logs));
